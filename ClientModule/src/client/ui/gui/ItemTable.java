@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemTable extends AbstractTableModel{
-    private List<Item> items;
+    private final List<Item> items;
 
-    private String[] columnNames={"Item code", "Item name","Item Image", "Price", "Number in stock", "Packing size"};
+    private final String[] columnNames={"Item code", "Item name","Item Image", "Price", "Number in stock", "Packing size"};
 
     public ItemTable(List<Item> currentItems){
         items=new ArrayList<>();
@@ -37,22 +37,16 @@ public class ItemTable extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex){
         Item selectedItem=items.get(rowIndex);
-        switch(columnIndex){
-            case 0:
-                return selectedItem.getItemCode();
-            case 1:
-                return selectedItem.getItemName();
-            case 2:
-                return  new ImageIcon( new ImageIcon(selectedItem.getPic()).getImage().getScaledInstance(100,100, Image.SCALE_DEFAULT));
-            case 3:
-                return selectedItem.getPrice();
-            case 4:
-                return selectedItem.getNumberInStock();
-            case 5:
-                return selectedItem.getPackingSize();
-            default:
-                return null;
-        }
+        return switch (columnIndex) {
+            case 0 -> selectedItem.getItemCode();
+            case 1 -> selectedItem.getItemName();
+            case 2 ->
+                    new ImageIcon(new ImageIcon(selectedItem.getPic()).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+            case 3 -> selectedItem.getPrice();
+            case 4 -> selectedItem.getNumberInStock();
+            case 5 -> selectedItem.getPackingSize();
+            default -> null;
+        };
     }
     @Override
     public String getColumnName(int column){

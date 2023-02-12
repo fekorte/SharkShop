@@ -32,10 +32,11 @@ public class Item {
         this.numberInStock=numberInStock;
         this.pic= pic;
     }
-    public Item(String itemName, float price, int numberInStock, String pic, int quantity){
+
+    public Item(String itemName, int itemCode, float price, int numberInStock, String pic){
         this.itemName=itemName;
         this.price=price;
-        this.itemCode=count++;
+        this.itemCode = itemCode;
         this.numberInStock=numberInStock;
         this.pic= pic;
     }
@@ -48,6 +49,7 @@ public class Item {
         this.pic= pic;
         this.itemCode = itemCode;
     }
+
     public Item(String itemName,  int itemCode, float price, int numberInStock, int packingSize){
         this.itemName=itemName;
         this.price=price;
@@ -56,20 +58,8 @@ public class Item {
         this.packingSize=packingSize;
 
     }
-    public Item(String itemName, int itemCode, float price, int numberInStock, String pic){
-        this.itemName=itemName;
-        this.price=price;
-        this.itemCode = itemCode;
-        this.numberInStock=numberInStock;
-        this.pic= pic;
-    }
-    public Item(String itemName, int itemCode, float price, int numberInStock, String pic, int quantity){
-        this.itemName=itemName;
-        this.price=price;
-        this.itemCode = itemCode;
-        this.numberInStock=numberInStock;
-        this.pic= pic;
-    }
+
+
     public String toString(){
         String availability=(numberInStock > 0)?"available":"sold out"; //this is to know if we have this item in stock
         String packing=(packingSize > 1)?" only in packs of "+packingSize:" ";
@@ -91,7 +81,6 @@ public class Item {
     }
     public String getPic(){return pic;}
 
-    //Methods to change the Stock
     public void addItemInStock(int stockIncrease){this.numberInStock=numberInStock+stockIncrease;}
     public void decreaseItemStock(int stockDecrease){this.numberInStock=numberInStock-stockDecrease;}
 }

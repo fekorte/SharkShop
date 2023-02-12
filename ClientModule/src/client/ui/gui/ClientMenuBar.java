@@ -22,8 +22,6 @@ public class ClientMenuBar extends JMenuBar{
 
     public interface MenuListener{void seeList(java.util.List<Item> toSee);}
     public interface LogoutListener{void logout();}
-
-    //private EShopManager manager;
     private IFrankie manager;
     private Person user;
     private MenuListener listener;
@@ -80,8 +78,6 @@ public class ClientMenuBar extends JMenuBar{
         add(menu8);
 
         setVisible(true);
-        //pack();
-
     }
 
     class ClientMenuListener implements ActionListener{
@@ -90,8 +86,8 @@ public class ClientMenuBar extends JMenuBar{
         public void actionPerformed(ActionEvent e){
             String command=e.getActionCommand();
 
-            switch(command){ //Depending on the clicked button
-                case "Show items (a-z)" -> { //same as CUI
+            switch(command){
+                case "Show items (a-z)" -> {
                     Map<Integer, Item> itemsI=manager.getItemsInStock();
                     List<Item> list=new ArrayList<>(itemsI.values());
                     Collections.sort(list, Comparator.comparing(Item::getItemName, String.CASE_INSENSITIVE_ORDER));
@@ -153,7 +149,6 @@ public class ClientMenuBar extends JMenuBar{
                     toCartPanel.add(success23);
 
                     JButton enter2=new JButton("Enter");
-                    //toCartPanel.getRootPane().setDefaultButton(enter2);
                     toCartPanel.add(enter2);
 
                     JButton back2=new JButton("Back");
@@ -162,7 +157,7 @@ public class ClientMenuBar extends JMenuBar{
                     toCartFrame2.add(toCartPanel);
                     toCartFrame2.setVisible(true);
 
-                    enter2.addActionListener(a -> { //if enter is being clicked
+                    enter2.addActionListener(a -> {
                         int itemCode=Integer.parseInt(itemCodeText.getText());
                         int quantity=Integer.parseInt(quantityText.getText());
 
@@ -183,7 +178,7 @@ public class ClientMenuBar extends JMenuBar{
                                     "Operation not possible",
                                     JOptionPane.WARNING_MESSAGE);
                         } catch(ExceptionItemMismatchingPackingSize l){
-                            success2.setText("the item is only available  by packs");
+                            success2.setText("the item is only available by packs");
                             l.printStackTrace();
                             JOptionPane.showMessageDialog(toCartFrame2,
                                     l.getMessage(),
@@ -199,8 +194,8 @@ public class ClientMenuBar extends JMenuBar{
 
                         }
                     });
-                    back2.addActionListener(i -> { //if back button is being clicked
-                        toCartFrame2.dispose(); //close
+                    back2.addActionListener(i -> {
+                        toCartFrame2.dispose();
                     });
                 }
                 case "Remove items" -> {
@@ -256,8 +251,8 @@ public class ClientMenuBar extends JMenuBar{
                         receiptFrame.setSize(300, 200);
                         receiptFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                        String content=String.valueOf(receipt); //put value of receipt in a String
-                        JTextArea area2=new JTextArea(content, 30, 50); //put this String in a JTextArea
+                        String content=String.valueOf(receipt);
+                        JTextArea area2=new JTextArea(content, 30, 50);
                         JScrollPane scrollPane3=new JScrollPane(area2);
                         receiptFrame.add(scrollPane3);
                         receiptFrame.setVisible(true);
@@ -275,7 +270,6 @@ public class ClientMenuBar extends JMenuBar{
                 default -> throw new IllegalArgumentException("Unknown menu item!");
             }
         }
-
     }
  }
 

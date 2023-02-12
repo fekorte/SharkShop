@@ -3,7 +3,6 @@ package client.ui.cui;
 import Common.*;
 import Common.exceptions.*;
 import Server.domain.EShopManager;
-//import client.net.FrankieClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,15 +12,13 @@ import java.util.*;
 import static java.lang.Integer.parseInt;
 
 class UI{
-    private BufferedReader in;
+    private final BufferedReader in;
     boolean loggedIn;
     boolean itsAClient;
-    private IFrankie manager;
-    //private EShopManager manager;
+    private final IFrankie manager;
     private Person user;
 
     public UI() throws IOException {
-        //manager = new FrankieClient();
         manager = new EShopManager();
         in=new BufferedReader(new InputStreamReader(System.in));
     }
@@ -54,11 +51,11 @@ class UI{
         System.out.print("Commands:\n ---------------------");
         System.out.print("         \n Show items (a-z item name): 'i' ");
         System.out.print("         \n Show items (item code) : 'n' ");
-        System.out.print("         \n Add new item: 'a' "); //this is made a new product to sell
-        System.out.print("         \n Increase stock: 'k' "); // to put more of the same products--thi set the variable int stock in Item --somehow throug the
+        System.out.print("         \n Add new item: 'a' ");
+        System.out.print("         \n Increase stock: 'k' ");
         System.out.print("         \n Decrease stock: 'j' ");
-        System.out.print("         \n Register new employee: 'y' "); //working
-        System.out.print("         \n Show stock logbook: 'x' "); //Logbook--> all the movements done in stock-->creates a txt file
+        System.out.print("         \n Register new employee: 'y' ");
+        System.out.print("         \n Show stock logbook: 'x' ");
         System.out.print("         \n ---------------------");
         System.out.println("       \n  Exit:        'w'");
         System.out.print("> ");
@@ -76,7 +73,7 @@ class UI{
         int quantity;
 
         switch(line){
-            case "a":{ //Add new item
+            case "a":{ //add new item
                 System.out.print("Item Name > ");
                 String itemName=readInput();
                 System.out.print("Price > ");
@@ -111,37 +108,36 @@ class UI{
                         e.printStackTrace();
                     }
                 }}
-                //Organizing and printing the new list
-                //Collections.sort(manager.getItems(), Comparator.comparing(Item::getItemName, String.CASE_INSENSITIVE_ORDER));
                 for(Item element: manager.getItemsInStock().values()){
                     System.out.println(element);
                 }
             }
             break;
 
-            case "b": //Buy selected items
+            case "b": { //buy selected items
                 String receipt = manager.buyItems(this.user.getName());
                 System.out.println(receipt);
                 manager.emptyCart(this.user.getName());
-                if(receipt.isEmpty()){
+                if (receipt.isEmpty()) {
                     System.out.println("Cart is empty. Please select items.");
                 }
+            }
                 break;
-            case "e":
+            case "e": { //empty shopping cart
                 manager.emptyCart(this.user.getName());
                 System.out.println("Cart has been emptied.");
+            }
                 break;
-            case "i":{
-                Map<Integer, Item> itemsI=manager.getItemsInStock();
-                List<Item> list=new ArrayList<Item>(itemsI.values());
-                Collections.sort(list, Comparator.comparing(Item::getItemName, String.CASE_INSENSITIVE_ORDER));
-                for(Item element: list){
+            case "i": { //show items (a-z)
+                Map<Integer, Item> itemsI = manager.getItemsInStock();
+                List<Item> list = new ArrayList<>(itemsI.values());
+                list.sort(Comparator.comparing(Item::getItemName, String.CASE_INSENSITIVE_ORDER));
+                for (Item element : list) {
                     System.out.println(element);
                 }
             }
             break;
-            case "j": //Decrease stock
-            {
+            case "j":{ //decrease stock
                 System.out.print("Item code > ");
                 int itemCode=parseInt(readInput());
                 System.out.print("Quantity > ");
@@ -155,8 +151,8 @@ class UI{
                 }
             }
             break;
-            case "k"://Increase stock
-            {
+            case "k":{ //increase stock
+
                 System.out.print("Item code > ");
                 int itemCode=Integer.parseInt(readInput());
                 System.out.print("Quantity > ");
@@ -172,42 +168,42 @@ class UI{
                 }
             }
             break;
-            case "l":
+            case "l": { //login
                 System.out.print("Username > ");
-                userName=readInput();
+                userName = readInput();
                 System.out.print("Password > ");
-                password=readInput();
-                try{
-                    this.user=manager.login(userName, password);
+                password = readInput();
+                try {
+                    this.user = manager.login(userName, password);
                     System.out.println("Login successful.");
-                    if(user != null){
-                        loggedIn=true;
+                    if (user != null) {
+                        loggedIn = true;
                         itsAClient = user.getBoolean();
                     } else {
-                        loggedIn=false;
+                        loggedIn = false;
                     }
-                } catch(ExceptionLoginFailed e){
+                } catch (ExceptionLoginFailed e) {
                     System.out.println("Login failed. Please try again.");
-                    loggedIn=false;
+                    loggedIn = false;
                     e.printStackTrace();
                 }
+            }
             break;
-            case "m":
+            case "m": //show cart content
                 System.out.println(manager.getItemInfo(this.user.getName()));
             break;
             case "n": //Show items (item number) : 'n' "
             {
                 Map<Integer, Item> items=manager.getItemsInStock();
                 List<Item> list=new ArrayList<>(items.values());
-                Collections.sort(list, Comparator.comparingInt(Item::getItemCode));
+                list.sort(Comparator.comparingInt(Item::getItemCode));
                 for(Item element: list){
                     System.out.println(element);
                 }
 
             }
             break;
-
-            case "r":
+            case "r": //register
                 System.out.print("Username > ");
                 userName=readInput();
                 System.out.print("Password > ");
@@ -221,7 +217,7 @@ class UI{
                     e.printStackTrace();
                 }
                 break;
-            case "s":
+            case "s": //select item
                 System.out.print("Item code > ");
                 int itemCode=Integer.parseInt(readInput());
                 System.out.print("Quantity >");
@@ -233,7 +229,7 @@ class UI{
                     System.out.println(e.getMessage());
                 }
                 break;
-            case "v"://
+            case "v": //remove item
                 System.out.print("Item code > ");
                 itemCode=Integer.parseInt(readInput());
                 System.out.print("Quantity >");
@@ -251,20 +247,19 @@ class UI{
                     e.printStackTrace();
                 }
                 break;
-            case "w":
+            case "w": //log out
                 loggedIn=false;
                 manager.logout(this.user.getName());
                 System.out.println("Logged out.");
                 break;
-            case "x":
-
-                Collections.sort(manager.getEntries(), Comparator.comparing(Logbook::getDate, String.CASE_INSENSITIVE_ORDER));
+            case "x": //show stock logbook
+                manager.getEntries().sort(Comparator.comparing(Logbook::getDate, String.CASE_INSENSITIVE_ORDER));
                 for(Logbook element: manager.getEntries()) {
                     System.out.println("------------------------");
                     System.out.println(element);
                 }
                 break;
-            case "y":
+            case "y": //register employee
                 System.out.print("Username > ");
                 userName=readInput();
                 System.out.print("Password > ");
@@ -304,7 +299,7 @@ class UI{
         } while(!input.equals("q"));
     }
 
-    public static void main(String[] args) throws IOException, ExceptionUserAlreadyExists{
+    public static void main(String[] args) throws IOException {
         UI cui=new UI();
         cui.run();
     }

@@ -14,16 +14,12 @@ public class ShopCart{
 
     public void putItemsInCart(Item item, int quantity){
         Item itemThatIsInCart = new Item(item.getItemName(), item.getItemCode(), item.getPrice(), item.getNumberInStock(),
-        item.getPic(), quantity );
+        item.getPic());
         itemsInCart.putIfAbsent(itemThatIsInCart, quantity);
     }
 
     public void emptyCart(){
         itemsInCart.clear();
-    }
-
-    public void removeItemsFromCart(Item item){
-        itemsInCart.remove(item);
     }
 
     public void increaseItemStock(int itemCode, int stockIncrease) {
@@ -36,7 +32,6 @@ public class ShopCart{
         }
     }
 
-    //deletes a certain quantity of objects
     public void decreaseItemStock(int itemCode, int stockDecrease){
         for(Item item: itemsInCart.keySet()){
             if(item.getItemCode() == itemCode){

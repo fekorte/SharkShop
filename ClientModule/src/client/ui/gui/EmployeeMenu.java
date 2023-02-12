@@ -15,13 +15,12 @@ import java.util.List;
 
 public class EmployeeMenu  extends JFrame implements SearchingBarPanel.SearchListener, ClientMenuBar.MenuListener, EmployeeMenuBar.MenuListener, ClientMenuBar.LogoutListener, EmployeeMenuBar.LogoutListener, EmployeeMenuBar.LogBookListener {
     //private EShopManager manager;
-    private IFrankie manager;
+    private final IFrankie manager;
     private Person user;
-    private static JTable itemTable;
-    private static ItemTable itemModel;//this fills the first line and in the right way :)
+    private static ItemTable itemModel;
 
     public void onSearched(java.util.List<Item> result){//used for the class SearchBarPanel to display the searched item
-        Collections.sort(result, Comparator.comparing(Item::getItemName, String.CASE_INSENSITIVE_ORDER));
+        result.sort(Comparator.comparing(Item::getItemName, String.CASE_INSENSITIVE_ORDER));
         itemModel.setItems(result);
 
     }
@@ -42,15 +41,15 @@ public class EmployeeMenu  extends JFrame implements SearchingBarPanel.SearchLis
     }
 
     public EmployeeMenu(IFrankie manager, Person user) {
-        super("Frankie: The E-Shop");//here super shows the name of the window
+        super("Frankie: The E-Shop");
         Image icon = Toolkit.getDefaultToolkit().getImage("images/shark.png");
         this.setIconImage(icon);
         this.manager = manager;
         this.user = user;
 
-        this.setLayout(new BorderLayout()); //creates layout
+        this.setLayout(new BorderLayout());
         this.setSize(800,900);
-        JMenuBar mb=new EmployeeMenuBar(manager, this.user,this, this, this);
+        JMenuBar mb=new EmployeeMenuBar(manager, this.user,this, this);
 
         pack();
         setJMenuBar(mb);
@@ -63,17 +62,15 @@ public class EmployeeMenu  extends JFrame implements SearchingBarPanel.SearchLis
         setVisible(true);
     }
 
-    private void searchingBar(){ //to be able to enter an item name or code and search
+    private void searchingBar(){
         JPanel northPanel=new SearchingBarPanel(manager, this);
         pack();
         add(northPanel, BorderLayout.NORTH); //finally add it to the main layout
     }
 
-    //Method that shows a list of stock content on screen in a table for employeeMenu()
-    //works together with class ItemTable, see also Bib6 for understanding
     private void showItemList(java.util.List<Item> itemList){
         itemModel=new ItemTable(itemList);
-        itemTable = new JTable(itemModel) {
+        JTable itemTable = new JTable(itemModel) {
             public Class getColumnClass(int column) {
                 return (column == 2) ? Icon.class : Object.class;
             }
@@ -83,7 +80,7 @@ public class EmployeeMenu  extends JFrame implements SearchingBarPanel.SearchLis
         itemTable.getTableHeader().setReorderingAllowed(false);
         DefaultTableCellRenderer Alinear = new DefaultTableCellRenderer();
 
-        Alinear.setHorizontalAlignment(SwingConstants.CENTER);//.LEFT .RIGHT .CENTER
+        Alinear.setHorizontalAlignment(SwingConstants.CENTER);
         itemTable.getColumnModel().getColumn(0).setCellRenderer(Alinear);
         itemTable.getColumnModel().getColumn(1).setCellRenderer(Alinear);
         itemTable.getColumnModel().getColumn(3).setCellRenderer(Alinear);
@@ -91,7 +88,7 @@ public class EmployeeMenu  extends JFrame implements SearchingBarPanel.SearchLis
         itemTable.getColumnModel().getColumn(5).setCellRenderer(Alinear);
 
         JScrollPane scrollPane=new JScrollPane(itemTable);
-        add(scrollPane, BorderLayout.CENTER); //adds the table to the center of the layout
+        add(scrollPane, BorderLayout.CENTER);
 
         setVisible(true);
         pack();

@@ -15,7 +15,6 @@ public class ClientRequestProcessor implements Runnable {
     private BufferedReader socketIn;
     private PrintStream socketOut;
     final String separator = ";";
-
     IFrankie frankie;
 
     public ClientRequestProcessor(Socket s, IFrankie frankie) throws IOException {
@@ -132,7 +131,6 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
-    //Method to read the command which client is logged in
     private void handleGetLogin(String[] data) {
         String username = data[1];
         String password = data[2];
@@ -154,7 +152,6 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
-    //method for registering the client, reads input from client
     private void handleGetRegisterClient(String[] data) {
         String username = data[1];
         String password = data[2];
@@ -167,7 +164,6 @@ public class ClientRequestProcessor implements Runnable {
     }
 
 
-    //method for registering the employee, reads input from client
     private void handleGetRegisterEmployee(String[] data) {
         String username = data[1];
         String password = data[2];
@@ -179,7 +175,6 @@ public class ClientRequestProcessor implements Runnable {
         }
     }
 
-  //method to create a new item, reads input from client
     private void handleGetCreatNewItem1(String[] data) {
 
         String itemName = data[1];
@@ -196,7 +191,6 @@ public class ClientRequestProcessor implements Runnable {
 
     }
 
-    //method to create a new item, reads input from client
     private void handleGetCreatNewItem2(String[] data) {
         String itemName = data[1];
         float price = Float.parseFloat(data[2]);
@@ -212,7 +206,7 @@ public class ClientRequestProcessor implements Runnable {
         }
     }
 
-    //method returns receipt to the client
+
     private void handleGetBuyItem(String[] data) {
         String username = data[1];
         String cmd = Commands.CMD_BUY_ITEMS_RESP.name();
@@ -226,13 +220,11 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
-    //method so that the correct cart can be emptied, it reads user information and empties the shopping cart
     private void handleGetEmptyCart(String[] data) {
         String username = data[1];
         frankie.emptyCart(username);
     }
 
-    //Method reads from client to decrease stock
     private void handleGetDecreaseStock(String[] data){
         int itemcode = Integer.parseInt(data[1]);
         int quantity = Integer.parseInt(data[2]);
@@ -246,7 +238,6 @@ public class ClientRequestProcessor implements Runnable {
 
     }
 
-    //Method reads from client to increase stock
     private void handleGetIncreaseStock(String[] data) {
         int itemCode = Integer.parseInt(data[1]);
         int quantity = Integer.parseInt(data[2]);
@@ -260,7 +251,6 @@ public class ClientRequestProcessor implements Runnable {
         }
     }
 
-    //Method reads from client to select item
     private void handleGetSelectItem(String[] data){
         int itemCode = Integer.parseInt(data[1]);
         int quantity = Integer.parseInt(data[2]);
@@ -273,7 +263,6 @@ public class ClientRequestProcessor implements Runnable {
         }
     }
 
-    //Method reads from client to remove item
     private void handleGetRemoveItem(String[] data){
         int itemCode = Integer.parseInt(data[1]);
         int quantity = Integer.parseInt(data[2]);
@@ -295,13 +284,11 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
-    //method reads from the client which user is logout
     private void handleGetLogout(String[] data){
         String username = data[1];
             frankie.logout(username);
     }
 
-    //method reads user information and determines the end price and sends it back to the client
     private void handleEndPrice(String[] data){
         String username = data[1];
         String cmd = Commands.CMD_END_PRICE_RESP.name();
@@ -310,7 +297,6 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
-    //method admitted the contents of a given user's shopping cart, receives user information from the client, and returns a card with the requested contents of the shopping cart
     private void handleGetItemsInCart(String[] data){
         String username = data[1];
         String cmd = Commands.CMD_GET_ITEMS_IN_CART_RESP.name();

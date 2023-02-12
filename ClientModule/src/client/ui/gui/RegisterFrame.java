@@ -1,20 +1,15 @@
 package client.ui.gui;
 
-//import Common.IFrankie;
 import Common.IFrankie;
 import Common.exceptions.ExceptionUserAlreadyExists;
-import Server.domain.EShopManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
 public class RegisterFrame extends JFrame{
-    private IFrankie manager;
-    //private EShopManager manager;
 
     public RegisterFrame(IFrankie manager){
-        this.manager = manager;
         Image icon = Toolkit.getDefaultToolkit().getImage("images/shark.png");
         this.setIconImage(icon);
         JPanel registerPanel = new JPanel(new FlowLayout());

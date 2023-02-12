@@ -15,8 +15,7 @@ public class Stock{
     public Map<Integer, Item> itemStock;
 
     public Stock() throws IOException{
-        itemStock=new HashMap(pm.fetchItem(file+"Stocklist.txt")); //here we go in the persistence, to the method
-        // fetchUsers() and we read the txt Stocklist
+        itemStock=new HashMap(pm.fetchItem(file+"Stocklist.txt"));
 
     }
 

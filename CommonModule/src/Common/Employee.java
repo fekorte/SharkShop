@@ -17,7 +17,7 @@ public class Employee extends Person{
     }
 
     public String toString(){
-        return ("Name: "+name+"\n"+"ID number: "+idNumber+"\n");
+        return ("Name: "+ name + "\n" + "ID number: " + idNumber + "\n");
     }
 
     public String getAddress(){

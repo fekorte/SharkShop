@@ -9,11 +9,9 @@ import java.io.IOException;
 
 
 public class GUI{
-    //private EShopManager manager;
-    private IFrankie manager;
     public GUI(){
         try{
-            manager = new EShopManager();
+            IFrankie manager = new EShopManager();
             JFrame frameLogin=new LoginFrame(manager);
         } catch(IOException e){
             e.printStackTrace();

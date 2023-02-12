@@ -20,29 +20,23 @@ import java.util.*;
 import java.util.List;
 
 public class EmployeeMenuBar extends JMenuBar {
-//these are all the buttons in the upper part of the window
+
     public interface MenuListener{void seeList(java.util.List<Item> toSee);}
     public interface LogoutListener{void logout();}
 
     public interface LogBookListener{void addToLayout(JScrollPane scrollPane);}
 
-    //private EShopManager manager;
-    private IFrankie manager;
-    private Person user;
-    private MenuListener listener;
-    private LogoutListener listener2;
-    private LogBookListener listener3;
-    private static LogbookTable modelTable;
-    private JButton openButton;
+    private final IFrankie manager;
+    private final Person user;
+    private final MenuListener listener;
+    private final LogoutListener listener2;
     private JFileChooser fc;
 
-    public EmployeeMenuBar(IFrankie manager, Person user, MenuListener listener, LogoutListener listener2,
-                           LogBookListener listener3 ){
+    public EmployeeMenuBar(IFrankie manager, Person user, MenuListener listener, LogoutListener listener2){
         this.manager = manager;
         this.user = user;
         this.listener = listener;
         this.listener2 = listener2;
-        this.listener3 = listener3;
 
         setLayout(new GridLayout(1, 8));
 
@@ -106,13 +100,13 @@ public class EmployeeMenuBar extends JMenuBar {
                 case "Show items (a-z)" -> {
                     Map<Integer, Item> itemsI = manager.getItemsInStock();
                     List<Item> list = new ArrayList<Item>(itemsI.values());
-                    Collections.sort(list, Comparator.comparing(Item::getItemName, String.CASE_INSENSITIVE_ORDER));
+                    list.sort(Comparator.comparing(Item::getItemName, String.CASE_INSENSITIVE_ORDER));
                     listener.seeList(list);
                 }
                 case "Show items (item code)" -> {
                     Map<Integer, Item> items = manager.getItemsInStock();
                     List<Item> list2 = new ArrayList<>(items.values());
-                    Collections.sort(list2, Comparator.comparingInt(Item::getItemCode));
+                    list2.sort(Comparator.comparingInt(Item::getItemCode));
                     listener.seeList(list2);
                 }
                 case "Add new item" -> {
@@ -135,8 +129,8 @@ public class EmployeeMenuBar extends JMenuBar {
                     itemText.addKeyListener(new KeyAdapter() {
                         public void keyTyped(KeyEvent e) {
                             char c = e.getKeyChar();
-                            if (!((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-                                e.consume();  // ignore event
+                            if (!(c < '0' || c > '9')) {
+                                e.consume();
                             }
                         }
                     });
@@ -159,25 +153,24 @@ public class EmployeeMenuBar extends JMenuBar {
                     JTextField packingText = new JTextField(10);
                     addItemPanel.add(packingText);
 
-                    JTextField flieRouteText = new JTextField(10);
-                    flieRouteText.setEnabled(false);
+                    JTextField fileRouteText = new JTextField(10);
+                    fileRouteText.setEnabled(false);
 
 
-                    openButton = new JButton("Open a File...",new ImageIcon("images/Open16.gif"));
+                    JButton openButton = new JButton("Open a File...", new ImageIcon("images/Open16.gif"));
                     addItemPanel.add(openButton);
                     openButton.addActionListener(a -> {
                         int returnVal = fc.showOpenDialog(EmployeeMenuBar.this);
                             if (returnVal == JFileChooser.APPROVE_OPTION) {
                                 File file = fc.getSelectedFile();
-                                //This is where a real application would open the file.
-                                flieRouteText.setText("images/"+file.getName());
+                                fileRouteText.setText("images/"+file.getName());
 
                             } else {
-                                flieRouteText.setText("Open command cancelled by user.");
+                                fileRouteText.setText("Open command cancelled by user.");
                             }
                     });
 
-                    addItemPanel.add(flieRouteText);
+                    addItemPanel.add(fileRouteText);
 
                     JLabel success2 = new JLabel("");
                     addItemPanel.add(success2);
@@ -186,7 +179,6 @@ public class EmployeeMenuBar extends JMenuBar {
 
                     JButton enter = new JButton("Enter");
 
-                   // addItemPanel.getRootPane().setDefaultButton(enter);
                     addItemPanel.add(enter);
 
                     JButton back = new JButton("Back");
@@ -216,7 +208,7 @@ public class EmployeeMenuBar extends JMenuBar {
                         String nameItem = itemText.getText();
                         float price = Float.parseFloat(priceText.getText());
                         int numberInStock = Integer.parseInt(numberText.getText());
-                        String picName = flieRouteText.getText();
+                        String picName = fileRouteText.getText();
 
                         int packingSize = Integer.parseInt(packingText.getText());
                         System.out.println(packingSize);
@@ -278,8 +270,6 @@ public class EmployeeMenuBar extends JMenuBar {
                     increasePanel.add(success23);
 
                     JButton enter2 = new JButton("Enter");
-                    //TODO make it works
-                    //increasePanel.getRootPane().setDefaultButton(enter2);
                     increasePanel.add(enter2);
 
                     JButton back2 = new JButton("Back");
@@ -312,7 +302,7 @@ public class EmployeeMenuBar extends JMenuBar {
                     decreaseFrame.setSize(300, 200);
                     decreaseFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                    JPanel decreasePanel = new JPanel();//based on: https://docs.oracle.com/javase/tutorial/uiswing/examples/layout/GridLayoutDemoProject/src/layout/GridLayoutDemo.java
+                    JPanel decreasePanel = new JPanel();
                     decreasePanel.setLayout(new GridLayout(0,2));
 
                     JLabel space3 = new JLabel("");
@@ -425,7 +415,6 @@ public class EmployeeMenuBar extends JMenuBar {
                     back4.addActionListener(i -> frame3.dispose());
                 }
                 case "Show stock logbook" -> {
-                    //Initialization frame
                     JFrame frameLogbook = new JFrame();
                     Image icon = Toolkit.getDefaultToolkit().getImage("images/shark.png");
                     frameLogbook.setIconImage(icon);
@@ -433,15 +422,12 @@ public class EmployeeMenuBar extends JMenuBar {
                     frameLogbook.setSize(600, 300);
                     frameLogbook.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                    //Initialization Table
-                    modelTable = new LogbookTable(manager.getEntries());
+                    LogbookTable modelTable = new LogbookTable(manager.getEntries());
                     JTable logbookTable = new JTable(modelTable);
                     logbookTable.getTableHeader().setReorderingAllowed(false);
 
-                    //Initialization ScrollPane
                     JScrollPane scrollPaneTable = new JScrollPane(logbookTable);
 
-                    //Initialization Panel (View)
                     JPanel logbookPanel = new JPanel(new BorderLayout());//distribute components
                     logbookPanel.add(scrollPaneTable, BorderLayout.CENTER);
 

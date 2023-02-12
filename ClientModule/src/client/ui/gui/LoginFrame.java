@@ -8,13 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LoginFrame extends JFrame {
-    private IFrankie manager;
-    //private EShopManager manager;
     private Person user;
 
     public LoginFrame(IFrankie manager)  {
-        this.manager = manager;
-        this.user = user;
         Image icon = Toolkit.getDefaultToolkit().getImage("images/shark.png");
         this.setIconImage(icon);
 
@@ -41,7 +37,7 @@ public class LoginFrame extends JFrame {
         JButton buttonRegister=new JButton("Register");
         loginPanel.add(buttonRegister);
 
-        JLabel success=new JLabel(""); //empty label to insert a message into, depending if login worked out or not
+        JLabel success=new JLabel("");
         loginPanel.add(success);
 
         add(loginPanel);
@@ -49,19 +45,19 @@ public class LoginFrame extends JFrame {
         pack();
 
         loginPanel.getRootPane().setDefaultButton(buttonLogin);
-        buttonLogin.addActionListener(e -> { //if login button gets clicked
+        buttonLogin.addActionListener(e -> {
 
-            String userName = userText.getText(); //read input
+            String userName = userText.getText();
             String password = passwordText.getText();
 
             try {
-                this.user = manager.login(userName, password); //login
+                this.user = manager.login(userName, password);
 
-                success.setText("Login successful."); //like System.out.println
-                dispose(); //closes automatically
-                if (user != null) { //sets the boolean so that we know if it's a client or employee
+                success.setText("Login successful.");
+                dispose();
+                if (user != null) {
                     if (user.getBoolean()) {
-                        ClientMenu clientMenu = new ClientMenu(manager, this.user); //restarts with the set values of the boolean and the user
+                        ClientMenu clientMenu = new ClientMenu(manager, this.user);
                     } else {
                         EmployeeMenu employeeMenu = new EmployeeMenu(manager, this.user);
                     }
@@ -73,7 +69,7 @@ public class LoginFrame extends JFrame {
         });
 
         buttonRegister.addActionListener(a -> {
-            dispose(); //close login page
+            dispose();
             RegisterFrame register = new RegisterFrame(manager);
 
         });

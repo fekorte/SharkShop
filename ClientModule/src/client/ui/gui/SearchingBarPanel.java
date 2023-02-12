@@ -13,16 +13,11 @@ public class SearchingBarPanel extends JPanel{
     public interface SearchListener{
         void onSearched(java.util.List<Item> result);
     }
-    private IFrankie manager;
-    //private EShopManager manager;
-    private SearchListener listener;
 
     public SearchingBarPanel(IFrankie manager, SearchListener listener){
-        this.manager = manager;
-        this.listener = listener;
-        setLayout(new FlowLayout()); //create layout
+        setLayout(new FlowLayout());
 
-        add(new JLabel("Search item name:")); //add following components to layout
+        add(new JLabel("Search item name:"));
 
         JTextField searchTextField = new JTextField();
         searchTextField.setPreferredSize(new Dimension(200, 30));
@@ -30,7 +25,7 @@ public class SearchingBarPanel extends JPanel{
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
                 if (!(c < '0' || c > '9')) {
-                    e.consume();  // ignore event
+                    e.consume();
                 }
             }
         });
@@ -48,7 +43,7 @@ public class SearchingBarPanel extends JPanel{
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
                 if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-                    e.consume();  // ignore event
+                    e.consume();
                 }
             }
         });
@@ -58,26 +53,25 @@ public class SearchingBarPanel extends JPanel{
         JButton searchButton2 = new JButton("Search");
         add(searchButton2);
 
-        //ActionListener decides what happens when a button gets clicked
-        searchButton.addActionListener(e -> { //if the first search button gets clicked
-            String titel = searchTextField.getText(); //read content of the first text field
+        searchButton.addActionListener(e -> {
+            String titel = searchTextField.getText();
 
             //now we are searching the item in the stock
             java.util.List<Item> result = new ArrayList<>();
-            for (Item element : manager.getItemsInStock().values()) { //checks if item name is to be found in stock
+            for (Item element : manager.getItemsInStock().values()) {
                 if (element.getItemName().equals(titel)) {
                     result.add(element);
                 }
             }
-            listener.onSearched(result); //calls method showItemList() and displays the result of the search on screen
+            listener.onSearched(result);
 
-            java.util.List<Item> stock = new ArrayList<>(manager.getItemsInStock().values()); //if item is not found show stock list
+            java.util.List<Item> stock = new ArrayList<>(manager.getItemsInStock().values());
             if (result.isEmpty()) {
                 listener.onSearched(stock);
             }
         });
 
-        searchButton2.addActionListener(e -> { //same as before with difference that the second text field is being read, we search for the item code
+        searchButton2.addActionListener(e -> {
             int itemCode = Integer.parseInt(searchTextField2.getText());
             java.util.List<Item> result = new ArrayList<>();
             for (Item element : manager.getItemsInStock().values()) {
