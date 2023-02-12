@@ -1,0 +1,144 @@
+-
+Items bought. 
+1
+BabyShark
+82
+Natha
+82
+2022-08-02
+17:34:48
+-
+Items bought. 
+1
+BabyShark
+79
+Natha
+79
+2022-08-02
+18:17:37
+-
+Items bought. 
+16
+Waterball Pen
+216
+Weintraube
+96
+2022-08-05
+23:16:17
+-
+Items bought. 
+17
+Print Throw Pillow
+0
+Weintraube
+0
+2022-08-05
+23:16:17
+-
+Items bought. 
+19
+Ensayo dos
+0
+Weintraube
+0
+2022-08-05
+23:16:17
+-
+Stock increased.
+16
+Waterball Pen
+216
+Felina
+120
+2022-08-05
+23:17:29
+-
+New item added. 
+1
+Zucchini
+1000
+Felina
+1000
+2022-08-05
+23:18:39
+-
+New item added. 
+2
+Blueberry
+30
+Felina
+30
+2022-08-05
+23:19:56
+-
+Items bought. 
+2
+Blueberry
+28
+Natha
+28
+2023-02-12
+01:47:19
+-
+Items bought. 
+2
+Blueberry
+22
+Natha
+28
+2023-02-12
+02:25:41
+-
+Items bought. 
+6
+Socks
+76
+Natha
+76
+2023-02-12
+02:25:41
+-
+New item added. 
+1
+S
+0
+Felina
+4
+2023-02-12
+02:27:00
+-
+Stock increased.
+1
+S
+0
+Felina
+4
+2023-02-12
+02:27:21
+-
+Stock decreased.
+1
+S
+0
+Felina
+8
+2023-02-12
+02:27:29
+-
+Stock decreased.
+2
+Blueberry
+22
+Felina
+5
+2023-02-12
+02:27:56
+-
+Stock decreased.
+2
+Blueberry
+22
+Felina
+1
+2023-02-12
+02:28:09
