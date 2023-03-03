@@ -1,6 +1,6 @@
 # SharkShop
 
-My first Java project, created as part of my programming classes. 
+My first Java project, created as part of my programming classes together with @NathaMora. 
 
 Shark themed eshop. 
 Create an account as a client and select items in your shopcart,
